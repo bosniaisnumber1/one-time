@@ -31,6 +31,11 @@ app.use(
   })
 );
 
+app.get('hi', (req, res) => {
+   res.send("hi");
+});
+
+
 app.get('/', (req, res) => {
   const path = resolve(process.env.STATIC_DIR + '/index.html');
   res.sendFile(path);
