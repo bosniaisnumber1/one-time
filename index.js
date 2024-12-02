@@ -16,6 +16,9 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   }
 });
 
+app.use(express.static(__dirname + '/public'));
+let nodeModulesDir = 'node_modules';
+app.use("/node_modules", express.static(nodeModulesDir));
 
 app.use(express.static(process.env.STATIC_DIR));
 app.use(express.urlencoded({ extended: true }));
