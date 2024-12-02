@@ -5,7 +5,7 @@ const { resolve } = require('path');
 require('dotenv').config({ path: './.env' });
 
 // Ensure environment variables are set.
-checkEnv();
+// checkEnv();
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-08-27',
