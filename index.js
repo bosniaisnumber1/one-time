@@ -34,7 +34,7 @@ app.use(
   })
 );
 
-app.get(/'hi', (req, res) => {
+app.get('/hi', (req, res) => {
    res.send("hi");
 });
 
