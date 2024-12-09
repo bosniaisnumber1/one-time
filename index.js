@@ -1,12 +1,16 @@
 const express = require('express');
 const app = express();
 const { resolve } = require('path');
-// Copy the .env.example in the root into a .env file in this folder
+const cors = require('cors');
+
+
+// Copy the .env.example in the root into a .env file in this folder\
 require('dotenv').config({ path: './.env' });
 
 // Ensure environment variables are set.
 // checkEnv();
-
+// Use CORS middleware
+app.use(cors());
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-08-27',
   appInfo: { // For sample support and debugging, not required for production:
@@ -66,16 +70,17 @@ app.get('/config', async (req, res) => {
 });
 
 // Fetch the Checkout Session to display the JSON result on the success page
-app.get('/checkout-session', async (req, res) => {
+app.get('/api/checkout-session', async (req, res) => {
+  console.log('checkout session');
   const { sessionId } = req.query;
   const session = await stripe.checkout.sessions.retrieve(sessionId);
   res.send(session);
 });
 
-app.post('/create-checkout-session', async (req, res) => {
+app.post('/api/create-checkout-session', async (req, res) => {
   const domainURL = process.env.DOMAIN;
-
-  const { quantity } = req.body;
+  const { amount, isMonthly  } = req.body;
+  //const { quantity } = req.body;
 
   // Create new Checkout Session for the order
   // Other optional params include:
@@ -85,20 +90,31 @@ app.post('/create-checkout-session', async (req, res) => {
   // [automatic_tax] - to automatically calculate sales tax, VAT and GST in the checkout page
   // For full details see https://stripe.com/docs/api/checkout/sessions/create
   const session = await stripe.checkout.sessions.create({
-    mode: 'payment',
+    // mode: 'payment',
+    mode: isMonthly ? 'subscription' : 'payment', // Use boolean check for monthly
+
     line_items: [
       {
-        price: process.env.PRICE,
-        quantity: quantity
+        price_data: {
+          unit_amount: amount, // Amount in the smallest currency unit (e.g., pence for GBP)
+          currency: "gbp",
+          product_data: {
+            name: 'Test Product',
+          },
+          ...(isMonthly && {
+            recurring: { interval: 'month' }, // Monthly subscription when isMonthly is true
+          }),
+        },
+        quantity: 1,
       },
     ],
     // ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
-    success_url: `${domainURL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${domainURL}/canceled.html`,
+    success_url: `https://gazagreatminds.org/completed/`,
+    cancel_url: `${domainURL}`,
     // automatic_tax: {enabled: true},
   });
-
-  return res.redirect(303, session.url);
+  res.json({url: session.url}) // <-- this is the changed line
+// return res.redirect(303, session.url);
 });
 
 // Webhook handler for asynchronous events.
