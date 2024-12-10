@@ -99,7 +99,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
           unit_amount: amount, // Amount in the smallest currency unit (e.g., pence for GBP)
           currency: "gbp",
           product_data: {
-            name: 'Test Product',
+            name: isMonthly ? 'Monthly Support' : 'Support',
           },
           ...(isMonthly && {
             recurring: { interval: 'month' }, // Monthly subscription when isMonthly is true
