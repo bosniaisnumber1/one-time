@@ -71,7 +71,6 @@ app.get('/config', async (req, res) => {
 
 // Fetch the Checkout Session to display the JSON result on the success page
 app.get('/api/checkout-session', async (req, res) => {
-  console.log('checkout session');
   const { sessionId } = req.query;
   const session = await stripe.checkout.sessions.retrieve(sessionId);
   res.send(session);

@@ -1,0 +1,436 @@
+<style>
+  /* General Reset */
+  .recover-fees {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      /* Space below the checkbox */
+  }
+
+  .donate-container {
+      display: flex;
+      /* Enable flexbox */
+      flex-direction: column;
+      /* Keep child elements stacked vertically */
+      align-items: center;
+      /* Center child elements horizontally */
+  }
+
+  .recover-fees input[type="checkbox"] {
+      margin-right: 10px;
+      /* Space between checkbox and label */
+  }
+
+  .recover-fees label {
+      font-size: 14px;
+      /* Adjust font size */
+      color: #333;
+      /* Text color */
+  }
+
+  body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+  }
+.donation-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #cec385;
+  background-image: url('https://media.discordapp.net/attachments/1295078431842898054/1317056162256125972/Hoor_Gold_Heart.jpeg?ex=675d4ba2&is=675bfa22&hm=5596c34af05832aea119ae32bf11cf34496aa5deb50faaf0524618c48e82c188&=&format=webp');
+  background-size: cover; /* Ensures the image covers the entire container */
+  background-repeat: no-repeat; /* Prevents tiling of the image */
+  background-position: center; /* Centers the image within the container */
+}
+
+  .header {
+      display: flex;
+      justify-content: center;
+      /* Center the content horizontally */
+      align-items: center;
+      /* Center the content vertically */
+      width: 100%;
+      margin-bottom: 20px;
+  }
+
+  .logo {
+      height: 100px;
+      max-width: 100%;
+      /* Ensure the logo doesn't overflow */
+      object-fit: contain;
+      /* Maintain aspect ratio without stretching */
+  }
+
+  /* Style for the warning message */
+  .warning {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+      font-weight: bold;
+      /* Make the text bold */
+  }
+
+  /* Disable the button when it's not clickable */
+  .disabled {
+      background-color: #ccc;
+      /* Gray background to indicate disabled state */
+      cursor: not-allowed;
+      /* Change cursor to indicate it's not clickable */
+      color: #666;
+      /* Lighter text color for a disabled look */
+  }
+
+  .logo {
+      height: 50px;
+  }
+
+  .donation-box {
+      flex: 1 1 400px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .donation-options {
+      display: flex;
+      margin-bottom: 20px;
+      width: 100%;
+      /* Ensure the container spans full width */
+  }
+
+  .tab {
+      flex: 1;
+      /* Each tab will take up an equal share of the space */
+      padding: 15px;
+      /* Adjust padding for better spacing */
+      text-align: center;
+      /* Center-align the text */
+      border: 1px solid #ccc;
+      /* Border between tabs */
+      box-sizing: border-box;
+      /* Ensure padding doesn't affect width */
+      cursor: pointer;
+  }
+
+  .tab:first-child {
+      border-right: none;
+      /* Remove double border between tabs */
+  }
+
+  .tab.active {
+      background: #228b22;
+      color: white;
+  }
+
+  .amount-options {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+  }
+
+  .amount-btn {
+      flex: 1;
+      margin: 0 5px;
+      padding: 10px;
+      background: #f7f7f7;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 8px;
+  }
+
+  .amount-btn.selected {
+      background: #228b22;
+      color: white;
+  }
+
+  .description {
+      margin-bottom: 20px;
+  }
+
+  .custom-amount {
+      margin-bottom: 20px;
+  }
+
+  .custom-amount input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+  }
+
+  .custom-amount label {
+      display: none;
+  }
+
+  .donate-btn {
+      border-radius: 40px;
+      width: 95%;
+      padding: 15px;
+      background: #228b22;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+  }
+
+  .payment-options {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+  }
+
+  .donation-image {
+      max-width: 100%;
+      border-radius: 10px;
+  }
+
+  .custom-amount input {
+      display: none;
+      width: 100%;
+      /* Full width of the container */
+      padding: 10px;
+      /* Consistent padding */
+      border: 1px solid #ccc;
+      /* Consistent border style */
+      border-radius: 5px;
+      /* Rounded corners for better appearance */
+      box-sizing: border-box;
+      /* Ensure padding doesn't affect width */
+  }
+
+  #express-checkout-element {
+      width: 100%;
+      /* Fill the entire width of the container */
+      text-align: center;
+      /* Center the text */
+      padding: 15px;
+      /* Add padding for better appearance */
+      color: #fff;
+      /* Text color for contrast */
+      border: none;
+      /* Remove any default borders */
+      border-radius: 5px;
+      /* Add rounded corners */
+      cursor: pointer;
+      /* Indicate it's clickable */
+      box-sizing: border-box;
+      /* Include padding in the total width */
+  }
+
+  .donate-btn.disabled {
+      background-color: #ccc;
+      /* Gray background to indicate disabled state */
+      cursor: not-allowed;
+      /* Change cursor to indicate it's not clickable */
+      color: #666;
+      /* Lighter text color for a disabled look */
+  }
+
+  .donation-question {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-align: center;
+      /* Center align the text */
+      color: #333;
+      /* Darker shade for better visibility */
+  }
+</style>
+</head>
+
+<body>
+  <div class="donation-container">
+      <header class="header">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Flag_of_Palestine.svg/800px-Flag_of_Palestine.svg.png" alt="Save the Children" class="logo">
+      </header>
+      <div class="donation-box">
+          <div class="donation-options">
+              <button class="tab active">Single</button>
+              <button class="tab">Monthly</button>
+          </div>
+          <p class="donation-question">How much would you like to donate?</p>
+          <div class="amount-options">
+              <button class="amount-btn">£5</button>
+              <button class="amount-btn selected">£25</button>
+              <button class="amount-btn">£50</button>
+              <button class="amount-btn other-amount-btn">Other</button>
+          </div>
+          <p class="description">For £25, you can provide a child in Gaza with education and psychological support for a month.</p>
+          <div class="custom-amount">
+              <label for="custom-amount">Please enter your amount</label>
+              <input type="number" id="custom-amount" placeholder="Other" min="1">
+              <p id="warning-message" class="warning" style="display: none;">Amount must be greater than £0</p>
+          </div>
+          <!-- <div class="recover-fees">
+<input type="checkbox" id="recover-fees-checkbox" />
+<label for="recover-fees-checkbox">Add a small amount to cover processing fees?</label>
+</div> -->
+          <div class="donate-container">
+              <button class="donate-btn">💳 CARD</button>
+          </div>
+          <div class="payment-options">
+              <div id="express-checkout-element">Quick checkout</div>
+          </div>
+      </div>
+  </div>
+</body>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  function initializeStripeCheckout(amount, currency = 'gbp', mountElementId = '#express-checkout-element') {
+      const stripe = Stripe('pk_live_51PkxG7DdK7tTrEXmXzzao37q3VuUNnvnVqTJGaZzpwBVueeYI9H3QCIlBaOdmJQVoTWmCC2xizOoBYGYTwp1bPSQ00UU42IGNl');
+      console.log('Initializing Stripe Checkout with amount:', amount);
+      const appearance = {
+          theme: 'stripe',
+          variables: {
+              borderRadius: '36px',
+          },
+      };
+      const expressCheckoutOptions = {
+          buttonHeight: 50,
+          buttonType: {
+              applePay: 'buy',
+              googlePay: 'buy',
+              paypal: 'checkout',
+              klarna: 'pay',
+          },
+      };
+      const elements = stripe.elements({
+          mode: 'payment',
+          amount: amount * 100, // Convert to smallest currency unit
+          currency: currency,
+          appearance,
+      });
+      const expressCheckoutElement = elements.create('expressCheckout', expressCheckoutOptions);
+      expressCheckoutElement.mount(mountElementId);
+  }
+  document.addEventListener("DOMContentLoaded", function() {
+      const singleTab = document.querySelector(".tab:nth-child(1)");
+      const monthlyTab = document.querySelector(".tab:nth-child(2)");
+      let amount = 25;
+      singleTab.addEventListener("click", function() {
+          singleTab.classList.add("active"); // Add 'active' class to Single tab
+          monthlyTab.classList.remove("active"); // Remove 'active' class from Monthly tab
+      });
+      monthlyTab.addEventListener("click", function() {
+          monthlyTab.classList.add("active"); // Add 'active' class to Monthly tab
+          singleTab.classList.remove("active"); // Remove 'active' class from Single tab
+      });
+      const customAmountLabel = document.querySelector('label[for="custom-amount"]');
+      const donateButton = document.querySelector(".donate-btn");
+      const customAmountInput = document.getElementById("custom-amount"); // Define customAmountInput
+      const otherAmountButton = document.querySelector(".other-amount-btn");
+      const amountButtons = document.querySelectorAll(".amount-btn"); // Get all predefined amount buttons
+      const warningMessage = document.getElementById('warning-message');
+      // Listen for input events to ensure the value is a valid number and greater than 0
+      customAmountInput.addEventListener('input', function() {
+          let currentValue = parseFloat(customAmountInput.value);
+          // If the value is less than or equal to 0 or invalid, show the warning message and disable the button
+          if (currentValue <= 0 || isNaN(currentValue)) {
+              customAmountInput.value = ''; // Clear the input if it's invalid
+              warningMessage.style.display = 'block'; // Show the warning message
+              donateButton.disabled = true; // Disable the donate button
+              donateButton.classList.add('disabled'); // Add disabled styling to the button
+          } else {
+              warningMessage.style.display = 'none'; // Hide the warning message if valid
+              donateButton.disabled = false; // Enable the donate button
+              donateButton.classList.remove('disabled'); // Remove disabled styling from the button
+          }
+      });
+      // Listen for input events to ensure the value is a valid number and greater than 0
+      customAmountInput.addEventListener('input', function() {
+          let currentValue = parseFloat(customAmountInput.value);
+          // If the value is less than or equal to 0 or invalid, show the warning message
+          if (currentValue <= 0 || isNaN(currentValue)) {
+              customAmountInput.value = ''; // Clear the input if it's invalid
+              warningMessage.style.display = 'block'; // Show the warning message
+              initializeStripeCheckout(amount);
+          } else {
+              amount = parseFloat(customAmountInput.value);
+              initializeStripeCheckout(amount);
+              warningMessage.style.display = 'none'; // Hide the warning message if valid
+          }
+      });
+      // Add event listener to custom amount input
+      customAmountInput.addEventListener("input", function() {
+          // Deselect all predefined amount buttons
+          amountButtons.forEach((button) => button.classList.remove("selected"));
+      });
+      // Add event listeners to predefined amount buttons
+      amountButtons.forEach((button) => {
+          button.addEventListener("click", function() {
+              // Deselect all buttons
+              amountButtons.forEach((btn) => btn.classList.remove("selected"));
+              // Select the clicked button
+              button.classList.add("selected");
+              // Toggle custom amount field visibility
+              if (button === otherAmountButton) {
+                  customAmountLabel.style.display = "block";
+                  customAmountInput.style.display = "block";
+                  customAmountInput.focus(); // Focus on the input field
+              } else {
+                  customAmountLabel.style.display = "none";
+                  customAmountInput.style.display = "none";
+                  customAmountInput.value = ""; // Clear the custom amount input
+              }
+              // Re-initialize Stripe Checkout
+              initializeStripeCheckout(amount);
+          });
+      });
+      // Donate Now button behavior
+      donateButton.addEventListener("click", async function() {
+          // Check if custom amount is entered
+          const customAmountValue = parseFloat(customAmountInput.value);
+          if (customAmountValue > 0) {
+              amount = customAmountValue * 100; // Convert to cents or smallest currency unit
+          } else {
+              // Check selected button for predefined amount
+              const selectedButton = document.querySelector(".amount-btn.selected");
+              if (selectedButton) {
+                  const buttonText = selectedButton.textContent.trim(); // Ensure text is trimmed
+                  const numericValue = buttonText.replace(/[^\d.]/g, "");
+                  amount = numericValue * 100;
+              }
+          }
+          if (!amount) {
+              alert("Please select or enter a valid amount.");
+              return;
+          }
+          // Check if "Monthly" tab is active
+          const isMonthly = monthlyTab.classList.contains("active");
+          try {
+              const response = await fetch("https://one-time-ezs3.onrender.com/api/create-checkout-session", {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                      amount, // Donation amount in smallest currency unit
+                      interval: isMonthly ? "monthly" : "single", // Donation type
+                      isMonthly: isMonthly, // Indicates if the donation is monthly
+                  }),
+              });
+              if (!response.ok) {
+                  alert("Failed to create checkout session.");
+                  throw new Error(`Server responded with status ${response.status}`);
+              }
+              const {
+                  url
+              } = await response.json();
+              // Open the Stripe Checkout page in a new tab
+              // Open the Stripe Checkout page in a popup
+              const popupWidth = 600;
+              const popupHeight = 700;
+              const left = (window.innerWidth - popupWidth) / 2; // Center horizontally
+              const top = (window.innerHeight - popupHeight) / 2; // Center vertically
+              window.open(url, "StripeCheckout", `width=${popupWidth},height=${popupHeight},left=${left},top=${top},resizable=yes,scrollbars=yes`);
+          } catch (error) {
+              console.error("Error:", error);
+              alert("An error occurred while processing your donation.");
+          }
+      });
+      initializeStripeCheckout(amount)
+  });
+</script>
