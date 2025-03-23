@@ -39,6 +39,7 @@ app.use(
 );
 
 app.get('/hi', (req, res) => {
+   console.log('hi');
    res.send("hi");
 });
 
