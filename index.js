@@ -155,17 +155,26 @@ app.post('/webhook', async (req, res) => {
 });
 
 app.post('/create-intent', async (req, res) => {
-  console.log('testOutReq', req);
-  console.log('testOutRes', req);
-  const intent = await stripe.paymentIntents.create({
-    // To allow saving and retrieving payment methods, provide the Customer ID.
-    customer: customer.id,
-     amount: 50,
-     currency: 'gbp',
-    // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
-    automatic_payment_methods: {enabled: true},
-  });
-  res.json({client_secret: intent.client_secret});
+  console.log('Received request body:', req.body); // Debugging
+    try {
+      const { amount, currency, mode } = req.body;
+
+      if (!amount || !currency || !mode) {
+        return res.status(400).json({ error: 'Missing required fields' });
+      }
+      const intent = await stripe.paymentIntents.create({
+        // To allow saving and retrieving payment methods, provide the Customer ID.
+        customer: customer.id,
+        amount: amount, // Ensure `amount` is in the smallest currency unit
+        currency: currency,
+        // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+        automatic_payment_methods: {enabled: true},
+      });
+      res.json({client_secret: intent.client_secret});
+  } catch (error) {
+    console.error('Error creating payment intent:', error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.listen(4242, () => console.log(`Node server listening on port ${4242}!`));
