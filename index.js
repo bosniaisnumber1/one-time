@@ -155,12 +155,13 @@ app.post('/webhook', async (req, res) => {
 });
 
 app.post('/create-intent', async (req, res) => {
-  console.log('testOutRes', res);
+  console.log('testOutReq', req);
+  console.log('testOutRes', req);
   const intent = await stripe.paymentIntents.create({
     // To allow saving and retrieving payment methods, provide the Customer ID.
     customer: customer.id,
-    amount: 50,
-    currency: 'gbp',
+    // amount: 50,
+    // currency: 'gbp',
     // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
     automatic_payment_methods: {enabled: true},
   });
