@@ -157,7 +157,7 @@ app.post('/webhook', async (req, res) => {
 app.post('/create-intent', async (req, res) => {
   console.log('Received request body:', req.body); // Debugging
     try {
-      const { amount, currency, mode } = req.body;
+    const { mode, amount, currency } = req.body._commonOptions
 
       if (!amount || !currency || !mode) {
         return res.status(400).json({ error: 'Missing required fields' });
