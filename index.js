@@ -164,7 +164,7 @@ app.post('/create-intent', async (req, res) => {
       }
       const intent = await stripe.paymentIntents.create({
         // To allow saving and retrieving payment methods, provide the Customer ID.
-        customer: customer.id,
+       // customer: customer.id,
         amount: amount, // Ensure `amount` is in the smallest currency unit
         currency: currency,
         // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
