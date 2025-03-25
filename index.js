@@ -157,19 +157,21 @@ app.post('/webhook', async (req, res) => {
 app.post('/create-intent', async (req, res) => {
   console.log('Received request body:', req.body); // Debugging
     try {
-    const { mode, amount, currency } = req.body._commonOptions
+      const { mode, amount, currency } = req.body._commonOptions
 
       if (!amount || !currency || !mode) {
         return res.status(400).json({ error: 'Missing required fields' });
       }
       const intent = await stripe.paymentIntents.create({
         // To allow saving and retrieving payment methods, provide the Customer ID.
-       // customer: customer.id,
+      //  customer: customer.id,
+        mode: mode,
         amount: amount, // Ensure `amount` is in the smallest currency unit
         currency: currency,
         // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
         automatic_payment_methods: {enabled: true},
       });
+      console.log("success!")
       res.json({client_secret: intent.client_secret});
   } catch (error) {
     console.error('Error creating payment intent:', error);
