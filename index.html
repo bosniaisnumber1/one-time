@@ -39,7 +39,7 @@
   padding: 20px;
   background-color: #cec385;
   background-image: url('https://media.discordapp.net/attachments/1295078431842898054/1317056162256125972/Hoor_Gold_Heart.jpeg?ex=675d4ba2&is=675bfa22&hm=5596c34af05832aea119ae32bf11cf34496aa5deb50faaf0524618c48e82c188&=&format=webp');
-  background-size: cover; /* Ensures the image covers the entire container */
+  background-size: object-fit; /* Ensures the image covers the entire container */
   background-repeat: no-repeat; /* Prevents tiling of the image */
   background-position: center; /* Centers the image within the container */
 }
@@ -86,6 +86,7 @@
   }
 
   .donation-box {
+    opacity: 95%;
       flex: 1 1 400px;
       background: #fff;
       padding: 20px;
@@ -305,6 +306,47 @@
       });
       const expressCheckoutElement = elements.create('expressCheckout', expressCheckoutOptions);
       expressCheckoutElement.mount(mountElementId);
+const handleError = (error) => {
+  const messageContainer = document.querySelector('#error-message');
+  messageContainer.textContent = error.message;
+}
+
+expressCheckoutElement.on('confirm', async (event) => {
+  const {error: submitError} = await elements.submit();
+  if (submitError) {
+    handleError(submitError);
+    return;
+  }
+
+  // Create the PaymentIntent and obtain clientSecret
+  const res = await fetch('https://one-time-ezs3.onrender.com/create-intent', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(elements),
+  });
+  const {client_secret: clientSecret} = await res.json();
+
+  const {error} = await stripe.confirmPayment({
+    // `elements` instance used to create the Express Checkout Element
+    elements,
+    // `clientSecret` from the created PaymentIntent
+    clientSecret,
+    confirmParams: {
+      return_url: 'https://gazagreatminds.org/completed/',
+    },
+  });
+
+  if (error) {
+    // This point is only reached if there's an immediate error when
+    // confirming the payment. Show the error to your customer (for example, payment details incomplete)
+    handleError(error);
+  } else {
+    // The payment UI automatically closes with a success animation.
+    // Your customer is redirected to your `return_url`.
+  }
+});
   }
   document.addEventListener("DOMContentLoaded", function() {
       const singleTab = document.querySelector(".tab:nth-child(1)");
