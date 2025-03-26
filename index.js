@@ -168,6 +168,7 @@ app.post('/create-intent', async (req, res) => {
        //  mode: mode,
         amount: amount, // Ensure `amount` is in the smallest currency unit
         currency: currency,
+        setup_future_usage: 'off_session',
         // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
         automatic_payment_methods: {enabled: true},
       });
